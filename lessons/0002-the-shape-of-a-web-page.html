@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 2 · The Shape of a Web Page</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Lesson 02 · The Shape of a Web Page</p>
+  <h1>A web page is a living tree, not a document.</h1>
+  <p class="lede">Why "View Source" never matches what's on your screen — and what React is actually
+  doing the moment the AI reaches for it.</p>
+
+  <span class="tag">Mental model</span><span class="tag">~5 min</span><span class="tag">Mission: read the frontend</span>
+
+  <hr>
+
+  <p>You can already tweak a bit of HTML. So here's the puzzle that HTML alone can't explain: your AI
+  chatbot starts with an empty page, then messages <em>appear</em> as you talk to it. But if you
+  right-click and hit <strong>"View Source,"</strong> none of those messages are in there. Where did
+  they come from, and why isn't the source telling the truth?</p>
+
+  <p>The answer is the single idea that makes every frontend — plain HTML or a big React app — stop
+  being a mystery.</p>
+
+  <div class="key">
+    <p class="eyebrow">The rule that unlocks the frontend</p>
+    <p style="margin:0"><strong>HTML is only the <em>starting</em> shape.</strong> The browser reads it
+    once and builds a living tree of objects called the <strong>DOM</strong>. From then on, the page you
+    see <em>is</em> that tree — and JavaScript's whole job is to change it: add branches, remove them,
+    edit their text.</p>
+  </div>
+
+  <h2>The three roles (you know two of these)</h2>
+
+  <p>Every frontend is three jobs working together. Name the role and you know which file to open.</p>
+
+  <div class="split">
+    <div class="card accent">
+      <p class="eyebrow">HTML · structure</p>
+      <p>The content and its shape — headings, buttons, the chat box. This is the tree's
+      <strong>starting</strong> form.</p>
+    </div>
+    <div class="card accent">
+      <p class="eyebrow">CSS · appearance</p>
+      <p>The colors, spacing, fonts. It styles the tree but never changes <em>what's</em> in it.</p>
+    </div>
+  </div>
+
+  <div class="card accent">
+    <p class="eyebrow">JavaScript · behavior &amp; change</p>
+    <p style="margin:0">The only one of the three that can <strong>reach into the tree and rewrite it
+    while the page is open</strong> — adding a new message, hiding a menu, updating a counter. When a
+    page does something <em>after</em> it loads, JavaScript did it.</p>
+  </div>
+
+  <h2>See the tree</h2>
+
+  <p>Here's a scrap of HTML and the tree the browser builds from it. Nesting in the HTML becomes
+  parent/child branches in the tree — that's all "the DOM" means.</p>
+
+  <pre><code><span class="tok-com">&lt;!-- the HTML you wrote --&gt;</span>
+&lt;div class=<span class="tok-str">"chat"</span>&gt;
+  &lt;p&gt;Hello&lt;/p&gt;
+&lt;/div&gt;
+
+<span class="tok-com">// the tree (DOM) the browser builds from it:</span>
+<span class="tok-com">//   div.chat</span>
+<span class="tok-com">//     └─ p   →  "Hello"</span></code></pre>
+
+  <p>Now JavaScript adds a second message. It doesn't rewrite your HTML file — it <strong>hangs a new
+  branch on the live tree</strong>:</p>
+
+  <pre><code><span class="tok-com">// JS reaches into the tree and adds a branch</span>
+<span class="tok-key">let</span> msg = document.createElement(<span class="tok-str">"p"</span>);
+msg.textContent = <span class="tok-str">"How can I help?"</span>;
+document.querySelector(<span class="tok-str">".chat"</span>).appendChild(msg);
+
+<span class="tok-com">// the tree is now:</span>
+<span class="tok-com">//   div.chat</span>
+<span class="tok-com">//     ├─ p  →  "Hello"</span>
+<span class="tok-com">//     └─ p  →  "How can I help?"   ← new, never in View Source</span></code></pre>
+
+  <p>That's the whole mystery solved. <strong>View Source shows the original HTML</strong> the server
+  first sent. The screen shows the <em>current tree</em> — which JavaScript has been editing ever since.
+  To see the real, live tree instead, you use <strong>Inspect</strong> (we'll do that below).</p>
+
+  <h2>So what is React, really?</h2>
+
+  <p>Editing the tree by hand — <code>createElement</code>, <code>appendChild</code>, find this, remove
+  that — gets painful fast in a real app. That pain is the entire reason React exists.</p>
+
+  <div class="key">
+    <p class="eyebrow">React in one sentence</p>
+    <p style="margin:0">Instead of you writing step-by-step tree edits, <strong>you describe what the
+    tree should look like for a given piece of data</strong> — and React makes the real DOM match it.
+    Your chat messages live in a list (data); React keeps the tree in sync with that list, so when you
+    add a message, the branch appears. You stopped giving directions and started describing the
+    destination.</p>
+  </div>
+
+  <p>This is why React code looks like HTML mixed into JavaScript (that's <strong>JSX</strong>): you're
+  not writing the page, you're writing a <em>description</em> of the tree that React will build and keep
+  updated. When you trace React code now, read it as: <em>"what tree does this data produce?"</em></p>
+
+  <h2>Check yourself</h2>
+  <p>Answer from memory — getting it slightly wrong and seeing why is how this sticks.</p>
+
+  <div class="quiz" data-answer="0">
+    <div class="q">The browser reads your HTML once. What does it build and then display from?</div>
+    <button class="opt">A live tree it calls the DOM</button>
+    <button class="opt">A picture of the finished page</button>
+    <button class="opt">A text file kept on the server</button>
+    <div class="feedback"
+      data-correct="Right. HTML is the starting shape; the browser turns it into the DOM — a living tree — and that tree is the page."
+      data-wrong="It builds the DOM: a live tree of objects. HTML is only the seed; the tree is what's actually on screen."></div>
+  </div>
+
+  <div class="quiz" data-answer="1">
+    <div class="q">JavaScript adds a chat message, yet "View Source" doesn't show it. Why not?</div>
+    <button class="opt">The new message lives server-side</button>
+    <button class="opt">View Source shows the first HTML</button>
+    <button class="opt">Your browser silently blocked it</button>
+    <div class="feedback"
+      data-correct="Exactly. View Source is the original HTML the server sent. JS has since edited the live tree, which only Inspect shows."
+      data-wrong="View Source shows the original HTML only. The message was added to the live tree afterward — use Inspect to see it."></div>
+  </div>
+
+  <div class="quiz" data-answer="2">
+    <div class="q">Stripped to one job, what is React mainly doing for you?</div>
+    <button class="opt">It safely stores your API keys</button>
+    <button class="opt">It paints the page nice colors</button>
+    <button class="opt">It syncs the DOM with your data</button>
+    <div class="feedback"
+      data-correct="Yes. You describe the tree your data should produce; React keeps the real DOM matching it. No manual branch-editing."
+      data-wrong="React's core job is keeping the DOM tree in sync with your data. Keys are a server concern; colors are CSS."></div>
+  </div>
+
+  <hr>
+
+  <h2>Read this next</h2>
+  <p><strong>Primary source (most trusted):</strong>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction">MDN —
+  Introduction to the DOM</a>. Read just the opening through "What is the DOM?". Notice it says the same
+  thing you just learned: the DOM is the page represented as a tree your code can change.</p>
+
+  <p>Keep the <a href="../reference/glossary.html">course glossary</a> open — every bold term here lives
+  there for quick lookup.</p>
+
+  <div class="key">
+    <p class="eyebrow">Your one tangible win</p>
+    <p style="margin:0">Open any web app the AI built you. Right-click anything on the page →
+    <strong>Inspect</strong>. That panel is the <em>live DOM tree</em> — not View Source. Now do
+    something in the app (send a message, open a menu) and watch a branch appear or change in real time.
+    Seeing the tree move is the moment the frontend stops being magic.</p>
+  </div>
+
+  <p class="ask">Want to trace a chunk of your own frontend — figure out what tree it builds? Paste it in
+  the chat and we'll read it together, branch by branch.</p>
+
+  <hr>
+  <div class="meta">
+    <span class="prev"><a href="0001-reading-code-with-confidence.html">◁ Lesson 01 — Reading code with confidence</a></span> &nbsp;·&nbsp;
+    <span class="next">next ▷ Lesson 03 — Talking to servers (coming when you're ready)</span>
+  </div>
+
+</div>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

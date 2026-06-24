@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course Glossary</title>
+<link rel="stylesheet" href="../assets/styles.css">
+<style>
+  .term { border-bottom: var(--rule); padding: 1rem 0; }
+  .term:last-child { border-bottom: none; }
+  .term dt { font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.15rem; }
+  .term dd { margin: 0.3rem 0 0; color: var(--ink-soft); }
+  .term .aka { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Reference · Living Glossary</p>
+  <h1>Course glossary</h1>
+  <p class="lede">The shared vocabulary of the course. Once a word is defined here, every lesson uses
+  it the same way. Keep this open while you learn.</p>
+
+  <dl>
+    <div class="term" id="client">
+      <dt>Client</dt>
+      <dd>The user's device and web browser — where the front-end runs. Whatever lives here, the user
+      can see and tamper with, so it holds no secrets. <span class="aka">aka: front-end · client-side · the browser</span></dd>
+    </div>
+    <div class="term" id="server">
+      <dt>Server</dt>
+      <dd>A computer you control (usually in the cloud) that does private, trusted work: databases,
+      passwords, and calling AI APIs with your secret key. <span class="aka">aka: back-end · server-side · the backend</span></dd>
+    </div>
+    <div class="term" id="request">
+      <dt>Request</dt>
+      <dd>A message the client sends to the server asking for something ("give me the dashboard data").</dd>
+    </div>
+    <div class="term" id="response">
+      <dt>Response</dt>
+      <dd>The message the server sends back to the client, answering a request.</dd>
+    </div>
+    <div class="term" id="frontend">
+      <dt>Front-end</dt>
+      <dd>The part of the app the user sees and interacts with, built from HTML, CSS, and JavaScript.
+      Runs in the <a href="#client">client</a>.</dd>
+    </div>
+    <div class="term" id="backend">
+      <dt>Back-end</dt>
+      <dd>The part of the app the user never sees directly — runs on the <a href="#server">server</a>
+      and handles data and secrets.</dd>
+    </div>
+    <div class="term" id="api-key">
+      <dt>API key</dt>
+      <dd>A secret password that lets your app use a paid service (like an AI model). Must live on the
+      <a href="#server">server</a> only — never in front-end code, where users could read and abuse it.</dd>
+    </div>
+    <div class="term" id="variable">
+      <dt>Variable</dt>
+      <dd>A labeled box that holds a current value, which can change as the code runs. Reading code is
+      mostly tracking what's in each box, line by line. <span class="aka">e.g. let limit = 5</span></dd>
+    </div>
+    <div class="term" id="function">
+      <dt>Function</dt>
+      <dd>A reusable recipe: inputs go in (the stuff in parentheses), one result comes out (the
+      <code>return</code>). To read one, find its inputs and its output first. <span class="aka">aka: method</span></dd>
+    </div>
+    <div class="term" id="control-flow">
+      <dt>Control flow</dt>
+      <dd>The forks in the road: <code>if</code> chooses which lines run; a loop (<code>for</code>,
+      <code>while</code>) runs the same lines repeatedly. The only places the path can branch or repeat.</dd>
+    </div>
+    <div class="term" id="trace">
+      <dt>Trace (be the computer)</dt>
+      <dd>Reading code by executing it in your head: step top to bottom, updating each
+      <a href="#variable">variable's</a> value as you go, until you reach the result. The core skill for
+      understanding code you didn't write.</dd>
+    </div>
+    <div class="term" id="dom">
+      <dt>DOM</dt>
+      <dd>The page as a live tree of objects that the browser builds from your HTML. After load, the DOM
+      <em>is</em> the page; JavaScript changes the page by changing this tree. <span class="aka">Document Object Model · the live tree · what "Inspect" shows</span></dd>
+    </div>
+    <div class="term" id="html">
+      <dt>HTML</dt>
+      <dd>The language that defines a page's structure and content. It's only the <em>starting</em> shape
+      of the <a href="#dom">DOM</a> tree — "View Source" shows this original, not the live page.</dd>
+    </div>
+    <div class="term" id="css">
+      <dt>CSS</dt>
+      <dd>The language for a page's appearance — colors, spacing, fonts. It styles the
+      <a href="#dom">DOM</a> tree but never changes what's in it.</dd>
+    </div>
+    <div class="term" id="react">
+      <dt>React</dt>
+      <dd>A tool that keeps the <a href="#dom">DOM</a> tree in sync with your data. Instead of editing the
+      tree by hand, you describe what it should look like for given data and React makes the real page
+      match. <span class="aka">JSX = HTML-looking description of the tree</span></dd>
+    </div>
+  </dl>
+
+  <p class="ask">Missing a word you keep tripping over? Ask me to add it.</p>
+  <hr>
+  <div class="meta">Updated as the course grows · last touched after Lesson 02</div>
+</div>
+</body>
+</html>

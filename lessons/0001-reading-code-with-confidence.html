@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 1 · Reading Code With Confidence</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Lesson 01 · Reading Code With Confidence</p>
+  <h1>Stop reading code like prose. Run it in your head.</h1>
+  <p class="lede">This is your actual bottleneck: AI-generated code <em>runs</em>, but you can't say
+  what it does or where to change it. The fix is one habit — and it's learnable in an afternoon.</p>
+
+  <span class="tag">Skill</span><span class="tag">~5 min</span><span class="tag">Mission: read & modify the code</span>
+
+  <hr>
+
+  <p>You already know <em>where</em> code runs — client vs. server (there's an
+  <a href="../reference/where-your-code-runs.html">optional primer</a> if you ever want the refresher).
+  Now the harder thing: reading a chunk and knowing what it <em>does</em>. The reason it feels opaque
+  isn't that the code is hard — it's that you've been reading it the way you read a paragraph: left to
+  right, grabbing the gist.</p>
+
+  <p>Code doesn't have a "gist." A computer doesn't skim — it executes one line at a time, and each
+  line changes the state of something. To read code, you do the same thing the computer does.</p>
+
+  <div class="key">
+    <p class="eyebrow">The rule that unlocks reading</p>
+    <p style="margin:0"><strong>Be the computer.</strong> Go line by line, top to bottom, and keep a
+    running list of what each <em>variable</em> currently holds. Don't ask "what does this mean?" —
+    ask "what value is in each box right now, and what does this line change?"</p>
+  </div>
+
+  <h2>The only three things any line is doing</h2>
+
+  <p>Ninety percent of code you'll ever read is built from three moves. Once you can name which one
+  you're looking at, the wall comes down.</p>
+
+  <div class="split">
+    <div class="card accent">
+      <p class="eyebrow">1 · Variables</p>
+      <p>A <strong>labeled box</strong> holding a current value. <code>let limit = 5</code> puts
+      <code>5</code> in the box called <code>limit</code>. The value can change later — that's the
+      whole point of tracing.</p>
+    </div>
+    <div class="card accent">
+      <p class="eyebrow">2 · Functions</p>
+      <p>A <strong>recipe</strong>: inputs go in, one result comes out. To read one, find the
+      <em>inputs</em> (the stuff in parentheses) and the <em>output</em> (the <code>return</code>).
+      Ignore the middle until you need it.</p>
+    </div>
+  </div>
+
+  <div class="card accent">
+    <p class="eyebrow">3 · Control flow — the forks</p>
+    <p style="margin:0"><code>if</code> picks <em>which</em> lines run; a loop (<code>for</code>,
+    <code>while</code>) runs the same lines <em>again and again</em>. These are the only places the
+    path through the code can branch or repeat. Everything else just runs straight down.</p>
+  </div>
+
+  <h2>Watch it work — a real AI-product function</h2>
+
+  <p>Here's the kind of thing the AI writes for a chatbot: take the conversation so far, keep only the
+  recent messages, and stitch them into one block of text to send to the model.</p>
+
+  <pre><code><span class="tok-key">function</span> buildReply(messages, isPro) {
+  <span class="tok-key">let</span> limit  = isPro ? <span class="tok-key">20</span> : <span class="tok-key">5</span>;     <span class="tok-com">// how many past messages to keep</span>
+  <span class="tok-key">let</span> recent = messages.slice(-limit);  <span class="tok-com">// the last `limit` of them</span>
+  <span class="tok-key">let</span> text   = <span class="tok-str">""</span>;
+  <span class="tok-key">for</span> (<span class="tok-key">let</span> m <span class="tok-key">of</span> recent) {
+    text += m.role + <span class="tok-str">": "</span> + m.content + <span class="tok-str">"\n"</span>;
+  }
+  <span class="tok-key">return</span> text.trim();
+}</code></pre>
+
+  <p>Don't skim it. <strong>Trace it</strong> with a concrete call — a free user (<code>isPro</code> is
+  <code>false</code>) with two messages. Keep the box-table in your head as you step down:</p>
+
+  <pre><code><span class="tok-com">// the call we're tracing:</span>
+buildReply([{role:<span class="tok-str">"user"</span>, content:<span class="tok-str">"hi"</span>},
+            {role:<span class="tok-str">"ai"</span>,   content:<span class="tok-str">"hello"</span>}], <span class="tok-key">false</span>)
+
+<span class="tok-com">// line by line — what's in each box:</span>
+<span class="tok-com">// limit  -> false ? 20 : 5     so 5</span>
+<span class="tok-com">// recent -> last 5 of 2 items  so both messages</span>
+<span class="tok-com">// text   -> ""                 then the loop runs twice:</span>
+<span class="tok-com">//   pass 1:  text = "user: hi\n"</span>
+<span class="tok-com">//   pass 2:  text = "user: hi\nai: hello\n"</span>
+<span class="tok-com">// return -> text.trim()  =>  "user: hi\nai: hello"</span></code></pre>
+
+  <p>That's it. You didn't memorize syntax — you tracked values down the page and arrived at the
+  answer the computer would. The <code>?</code> chose a number, the loop built up a string, the
+  <code>return</code> handed it back. <strong>Reading is tracing.</strong></p>
+
+  <div class="key">
+    <p class="eyebrow">Why this is the whole mission</p>
+    <p style="margin:0">Once you can trace, "I can't modify it" dissolves too. The user says the bot
+    forgets too fast? You don't hunt blindly — you know the memory length lives in <em>one box</em>,
+    <code>limit</code>. Tracing tells you exactly where to put your hands.</p>
+  </div>
+
+  <h2>Check yourself</h2>
+  <p>Answer from memory — trace it on paper if you need to. Getting it slightly wrong and seeing why
+  is how this sticks.</p>
+
+  <div class="quiz" data-answer="0">
+    <div class="q">In that trace, with <code>isPro</code> equal to <code>false</code>, what ends up in the box called <code>limit</code>?</div>
+    <button class="opt">It holds the number five</button>
+    <button class="opt">It holds the number twenty</button>
+    <button class="opt">It holds an empty list</button>
+    <div class="feedback"
+      data-correct="Right. limit = isPro ? 20 : 5 — false takes the second branch, so the box holds 5."
+      data-wrong="Trace the ?: it reads 'isPro ? (if true) 20 : (if false) 5'. isPro is false, so the box gets 5."></div>
+  </div>
+
+  <div class="quiz" data-answer="1">
+    <div class="q">A user complains your bot forgets the conversation too quickly. Which line do you change?</div>
+    <button class="opt">The line building up the text</button>
+    <button class="opt">The line that sets the limit</button>
+    <button class="opt">The line returning trimmed text</button>
+    <div class="feedback"
+      data-correct="Exactly. Memory length lives in limit — bump the 5 (or 20). Tracing told you where to look."
+      data-wrong="Trace what controls how many messages survive: recent = messages.slice(-limit). It's the limit line."></div>
+  </div>
+
+  <div class="quiz" data-answer="2">
+    <div class="q">What's the reliable way to read a function you've never seen before?</div>
+    <button class="opt">Skim it fast for the gist</button>
+    <button class="opt">Run it and hope for best</button>
+    <button class="opt">Trace it line by line</button>
+    <div class="feedback"
+      data-correct="Yes. Be the computer: step down the lines, tracking each variable's value. That's reading."
+      data-wrong="Skimming is what makes code feel opaque. Trace it: go line by line, tracking what's in each box."></div>
+  </div>
+
+  <hr>
+
+  <h2>Read this next</h2>
+  <p><strong>Primary source (most trusted):</strong>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types">MDN — JavaScript
+  grammar and types</a>. Read just the "Declarations" and "Variables" sections — it's the canonical
+  explanation of the labeled boxes you just traced. Notice how <code>let</code>, values, and
+  reassignment now read as "what's in the box, and when does it change?"</p>
+
+  <p>Keep the <a href="../reference/glossary.html">course glossary</a> open — every bold term here lives
+  there for quick lookup.</p>
+
+  <div class="key">
+    <p class="eyebrow">Your one tangible win</p>
+    <p style="margin:0">Open a function from a project the AI built you. Pick a real call to it, then
+    <em>trace it on paper</em> — write each variable and update its value line by line until you hit the
+    <code>return</code>. If your answer matches what the app actually does, you can now <strong>read
+    code</strong>, not just run it.</p>
+  </div>
+
+  <p class="ask">Bring me a function from your own project and we'll trace it together, line by line —
+  I'm your teacher, just ask me in the chat.</p>
+
+  <hr>
+  <div class="meta">
+    <span class="prev"><a href="../reference/where-your-code-runs.html">◁ optional primer — where your code runs</a></span> &nbsp;·&nbsp;
+    <span class="next"><a href="0002-the-shape-of-a-web-page.html">next ▷ Lesson 02 — The shape of a web page</a></span>
+  </div>
+
+</div>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

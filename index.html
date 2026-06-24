@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Comprehension</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Geist:wght@300..600&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{--cream:#f5f0eb;--card:#fff;--ink:#2d2d2d;--ink-soft:#5a5550;--ink-faint:#8a8580;
+    --terracotta:#c4825a;--terracotta-deep:#a8693f;--hairline:#e3dcd3;--radius:14px;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:'Geist',system-ui,sans-serif;
+    font-weight:350;line-height:1.6;font-size:18px;padding:3.5rem 1.25rem 6rem;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:0 auto;}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--terracotta);margin:0 0 .75rem;}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(2rem,6vw,2.8rem);line-height:1.1;
+    letter-spacing:-.01em;margin:0 0 .5rem;}
+  .lede{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:1.25rem;
+    line-height:1.45;color:var(--ink-soft);margin:0 0 2.5rem;}
+  .card{background:var(--card);border:1px solid var(--hairline);border-left:3px solid var(--terracotta);
+    border-radius:var(--radius);padding:.5rem 1.75rem;margin:1.5rem 0;box-shadow:0 1px 2px rgba(45,45,45,.03);}
+  ul{list-style:none;padding:0;margin:0;}
+  li{margin:0;border-top:1px solid var(--hairline);}
+  li:first-child{border-top:none;}
+  li a{display:block;padding:.85rem .1rem;color:var(--ink);text-decoration:none;font-size:1.05rem;}
+  li a:hover{color:var(--terracotta-deep);}
+  li a .n{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--ink-faint);
+    letter-spacing:.08em;margin-right:.6rem;}
+  li a .arrow{float:right;color:var(--ink-faint);}
+  .meta{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--ink-faint);
+    letter-spacing:.04em;margin-top:2.5rem;border-top:1px solid var(--hairline);padding-top:1rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Personal Learning · Course</p>
+  <h1>Code comprehension</h1>
+  <p class="lede">Reading, debugging, and confidently changing AI-generated code for web &amp; AI
+  products. Tap a lesson to begin.</p>
+
+  <div class="card">
+    <ul>
+      <li><a href="lessons/0001-reading-code-with-confidence.html"><span class="n">L01</span>Reading code with confidence<span class="arrow">›</span></a></li>
+      <li><a href="lessons/0002-the-shape-of-a-web-page.html"><span class="n">L02</span>The shape of a web page<span class="arrow">›</span></a></li>
+      <li><a href="reference/glossary.html"><span class="n">REF</span>Glossary<span class="arrow">›</span></a></li>
+      <li><a href="reference/where-your-code-runs.html"><span class="n">OPT</span>Primer — where your code runs<span class="arrow">›</span></a></li>
+    </ul>
+  </div>
+
+  <div class="meta">In Safari, tap Share → Add to Home Screen to read like an app · updates when new lessons are pushed</div>
+</div>
+</body>
+</html>

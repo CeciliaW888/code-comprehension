@@ -1,0 +1,8 @@
+# Personal / private — kept local, never published
+MISSION.md
+NOTES.md
+learning-records/
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store

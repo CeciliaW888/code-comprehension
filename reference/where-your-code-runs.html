@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Optional Primer · Where Your Code Runs</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Reference · Optional Primer</p>
+  <h1>Where does your code actually run?</h1>
+  <p class="lede">The client/server mental model. You told me you already know this — it lives here as
+  an optional refresher and to back the glossary. The course proper starts at
+  <a href="../lessons/0001-reading-code-with-confidence.html">Lesson 01 — Reading code</a>.</p>
+
+  <span class="tag">Optional</span><span class="tag">~5 min</span><span class="tag">Skip if you know it</span>
+
+  <hr>
+
+  <p>When the AI builds you a web app, it writes files that run in <strong>two completely different
+  places</strong>. Almost every "wait, why doesn't this work / why is this insecure / where do I
+  even change this?" moment comes from not knowing <em>which place</em> a piece of code lives in.</p>
+
+  <p>So before any syntax, learn the map. There are exactly two lands.</p>
+
+  <h2>The two lands</h2>
+
+  <div class="split">
+    <div class="card accent">
+      <p class="eyebrow">The Client</p>
+      <p><strong>Runs on the user's device</strong> — inside their web browser (Chrome, Safari…).</p>
+      <p>It's everything the user can see and touch: the buttons, the layout, the colors. Made of
+      <code>HTML</code>, <code>CSS</code>, and <code>JavaScript</code>.</p>
+      <p class="meta">Also called: front&#8209;end · client&#8209;side · "the browser"</p>
+    </div>
+    <div class="card accent">
+      <p class="eyebrow">The Server</p>
+      <p><strong>Runs on a computer you control</strong> — somewhere in the cloud, not on the user's
+      device.</p>
+      <p>It does the private, trusted work: talking to the database, checking passwords, and
+      <em>calling AI APIs with your secret key</em>.</p>
+      <p class="meta">Also called: back&#8209;end · server&#8209;side · "the backend"</p>
+    </div>
+  </div>
+
+  <p>They talk to each other by passing messages across the internet. The client sends a
+  <strong>request</strong> ("hey, give me the dashboard data"); the server sends back a
+  <strong>response</strong> ("here you go"). That back-and-forth is the heartbeat of every web app
+  you'll ever ship. <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Server-side/First_steps/Introduction">[MDN]</a></p>
+
+  <div class="key">
+    <p class="eyebrow">The rule that decides everything</p>
+    <p style="margin:0"><strong>Anything in the client, the user can see and tamper with.</strong>
+    The browser hands them the full source — there are no secrets in the front-end. Anything you need
+    to keep private or trusted has to live on the <em>server</em>.</p>
+  </div>
+
+  <h2>Why this is the whole ballgame for an AI product</h2>
+
+  <p>Here's the trap that catches almost every vibe coder shipping their first AI app. You get an API
+  key from Anthropic or OpenAI. The fastest-looking thing is to paste it straight into the front-end
+  JavaScript so the browser can call the AI. It <em>works</em> in your demo — so it feels right.</p>
+
+  <p>But remember the rule: <strong>the browser shows users everything.</strong> Anyone who opens your
+  site can read that key, and now they're running up your bill on your dime. This isn't rare; it's one
+  of the most common ways new AI apps get drained.</p>
+
+  <p>The fix falls right out of the mental model: the <strong>browser</strong> asks <strong>your
+  server</strong> for an answer → your server (where secrets are safe) calls the AI → your server
+  passes the result back. The key never leaves the trusted land.</p>
+
+  <pre><code><span class="tok-com">// ❌ DANGER — runs in the browser, key is visible to everyone</span>
+fetch(<span class="tok-str">"https://api.anthropic.com/..."</span>, {
+  headers: { <span class="tok-str">"x-api-key"</span>: <span class="tok-str">"sk-ant-my-secret-key"</span> }  <span class="tok-com">// 😱 exposed</span>
+})
+
+<span class="tok-com">// ✅ SAFE — browser talks to YOUR server; the key stays server-side</span>
+fetch(<span class="tok-str">"/api/ask-ai"</span>, { method: <span class="tok-str">"POST"</span>, body: question })
+<span class="tok-com">// ...your server holds the key and calls the AI on the browser's behalf.</span></code></pre>
+
+  <p>You don't need to write this yet. The win is this: when the AI generates code like the top
+  snippet, <strong>you can now spot it</strong> — because you know which land the key is standing in.</p>
+
+  <h2>Check yourself</h2>
+  <p>Answer from memory — getting it slightly wrong and seeing why is how this sticks.</p>
+
+  <div class="quiz" data-answer="1">
+    <div class="q">Your AI app has a secret API key. Where must it live so users can't steal it?</div>
+    <button class="opt">Inside the browser front-end</button>
+    <button class="opt">On the private back-end server</button>
+    <button class="opt">Written into the HTML page</button>
+    <div class="feedback"
+      data-correct="Exactly. The server is the trusted land — secrets stay there, out of the user's reach."
+      data-wrong="Remember the rule: the browser shows users everything. A key in the front-end is a key anyone can read."></div>
+  </div>
+
+  <div class="quiz" data-answer="0">
+    <div class="q">JavaScript running inside a person's web browser is known as what kind of code?</div>
+    <button class="opt">This is client-side code</button>
+    <button class="opt">This is server-side code</button>
+    <button class="opt">This is database-side code</button>
+    <div class="feedback"
+      data-correct="Right. Browser = client = front-end. Same land, three names for it."
+      data-wrong="The browser is the client. Server-side code runs on the cloud machine, not the user's device."></div>
+  </div>
+
+  <div class="quiz" data-answer="2">
+    <div class="q">A page loads its live data. Which sentence describes the request/response heartbeat?</div>
+    <button class="opt">The server quietly edits itself</button>
+    <button class="opt">The database emails a webpage</button>
+    <button class="opt">The browser asks; server answers</button>
+    <div class="feedback"
+      data-correct="That's the heartbeat: client sends a request, server sends back a response. Everything else is detail."
+      data-wrong="The flow is: the client (browser) sends a request, and the server sends back a response."></div>
+  </div>
+
+  <hr>
+
+  <p>Keep the <a href="glossary.html">course glossary</a> open as you go — every bold term here lives
+  there for quick lookup.</p>
+
+  <p class="ask">Want to test this on your own code? Bring me a file from your project and we'll label it
+  together — I'm your teacher, just ask me in the chat.</p>
+
+  <hr>
+  <div class="meta">
+    <span class="prev">◁ reference material</span> &nbsp;·&nbsp;
+    <span class="next"><a href="../lessons/0001-reading-code-with-confidence.html">to the course ▷ Lesson 01 — Reading code with confidence</a></span>
+  </div>
+
+</div>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
